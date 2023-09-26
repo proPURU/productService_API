@@ -13,7 +13,7 @@ import lombok.Setter;
 
 
 public class BaseModel {
-    private long id;
+    private Long Id;
     private Date createdAt;
     private Date lastUpdate;
     private boolean isDeleted;
