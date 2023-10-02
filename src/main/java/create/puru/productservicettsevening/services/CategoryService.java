@@ -1,7 +1,6 @@
 package create.puru.productservicettsevening.services;
 
 
-import create.puru.productservicettsevening.dtos.CategoryDTO;
 import create.puru.productservicettsevening.models.Product;
 
 import java.util.List;

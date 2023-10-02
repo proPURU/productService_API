@@ -1,6 +1,7 @@
 package create.puru.productservicettsevening.services;
 
-import create.puru.productservicettsevening.dtos.CategoryDTO;
+import create.puru.productservicettsevening.clients.FakeStoreProductDTO;
+import create.puru.productservicettsevening.clients.FakestoreClient;
 import create.puru.productservicettsevening.dtos.ProductDTO;
 import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
@@ -11,58 +12,49 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class FakeStoreCategoryServiceImpl implements CategoryService {
-
+    private  Product convertFakeStoreProductDTOtoProducts(FakeStoreProductDTO fakeStoreProductDTO)
+    {
+        Product product = new Product();
+        product.setId(fakeStoreProductDTO.getId());
+        product.setTitle(fakeStoreProductDTO.getTitle());
+        product.setPrice( fakeStoreProductDTO.getPrice());
+        Category category = new Category();
+        category.setName( fakeStoreProductDTO.getCategory());
+        product.setCategory(category);
+        product.setImageUrl( fakeStoreProductDTO.getImage());
+        return  product;
+    }
 
     private RestTemplateBuilder restTemplateBuilder;
+    FakestoreClient fakestoreClient;
 
-    public FakeStoreCategoryServiceImpl(RestTemplateBuilder restTemplateBuilder) {
+    public FakeStoreCategoryServiceImpl(RestTemplateBuilder restTemplateBuilder,FakestoreClient fakestoreClient) {
         this.restTemplateBuilder = restTemplateBuilder;
+        this.fakestoreClient=fakestoreClient;
     }
 
 
     @Override
     public List<Product> getProductsInCategories(String categoryName) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductDTO[]> l = restTemplate.getForEntity(
-                "https://fakestoreapi.com/products/category/{name}",
-                ProductDTO[].class,
-                categoryName
-        );
-        List<Product> answer = new ArrayList<>();
 
-        for (ProductDTO productDto : l.getBody()) {
-            Product product = new Product();
-            product.setId(productDto.getId());
-            product.setTitle(productDto.getTitle());
-            product.setPrice(productDto.getPrice());
-            Category category = new Category();
-            category.setName(productDto.getCategory());
-            product.setCategory(category);
-            product.setImageUrl(productDto.getImage());
-            answer.add(product);
+
+        List<FakeStoreProductDTO> fakeStoreProductDTOS1 = fakestoreClient.getProductsInCategories(categoryName);
+        List<Product> answer=new ArrayList<>();
+        for (FakeStoreProductDTO fakeStoreProductDTO: fakeStoreProductDTOS1) {
+            answer.add(convertFakeStoreProductDTOtoProducts(fakeStoreProductDTO));
         }
-
         return answer;
     }
+
+
 
     @Override
     public List<String> getAllCategories() {
 
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<String[]> l = restTemplate.getForEntity(
-                "https://fakestoreapi.com/products/categories",
-                String[].class
-        );
-
-        List<String> answer1 = new ArrayList<>();
-        for (String str : l.getBody()) {
-                answer1.add(str);
-            }
-
-            return answer1;
+       List<String> str=fakestoreClient.getAllCategories();
+        return str;
     }
 }

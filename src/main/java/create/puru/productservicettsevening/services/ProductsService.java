@@ -16,6 +16,6 @@ public interface ProductsService {
             ProductDTO product
             );
     Product getSingleProduct(Long productId);
-    Product updateProducts( Long productId,ProductDTO productDTO);
+    Product updateProducts( Long productId,Product product);
     HttpStatusCode deleteProducts(Long productId);
 }
