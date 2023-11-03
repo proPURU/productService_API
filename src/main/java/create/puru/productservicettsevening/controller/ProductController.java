@@ -1,56 +1,44 @@
 package create.puru.productservicettsevening.controller;
 
-import create.puru.productservicettsevening.dtos.GetSingleProductResponseDTO;
 import create.puru.productservicettsevening.dtos.ProductDTO;
 import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
+import create.puru.productservicettsevening.repositories.ProductRepository;
+import create.puru.productservicettsevening.services.CategoryService;
 import create.puru.productservicettsevening.services.ProductsService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController  {
+    private ProductRepository productRepository;
     private ProductsService productsService;
-    public ProductController(ProductsService productsService) {
+    CategoryService categoryService;
+    public ProductController(ProductsService productsService, ProductRepository productRepository , CategoryService categoryService) {
         this.productsService = productsService;
+        this.productRepository=productRepository;
+        this.categoryService=categoryService;
     }
 
-
-    //Input to further call
-    //Product too Product DTO
-    ProductDTO convertProduct_to_ProductDTO(Product  product)
-    {
-        ProductDTO productDTO=new ProductDTO();
-        productDTO.setTitle(product.getTitle());
-        productDTO.setId(product.getId());
-        productDTO.setDescription(product.getDescription());
-        productDTO.setPrice(product.getPrice());
-
-        return productDTO;
-    }
 
     Product convertProductDTO_to_Product(ProductDTO productDTO)
     {
         Product product = new Product();
         product.setId(productDTO.getId());
-        product.setCategory(new Category());
-        product.getCategory().setName(productDTO.getCategory());
+        Category cg=new Category();
+        cg.setName(productDTO.getCategory());
+        cg.setDescription(productDTO.getDescription());
+       // product.setCategory(cg);
+        categoryService.addNewCategory(cg);
         product.setTitle(productDTO.getTitle());
         product.setPrice(productDTO.getPrice());
-        product.setDescription(productDTO.getDescription());
+//        product.setDescription(productDTO.getDescription());
 
         return  product;
     }
-
-
-
-
 
 
     ///////////////// ADD ALL PRODUCT CONTROLLER //////////////////
@@ -64,29 +52,22 @@ public class ProductController  {
 
     ///////////////// GET SINGLE  PRODUCT CONTROLLER //////////////////
     @GetMapping("{productId}")
-    public GetSingleProductResponseDTO getSingleProduct(@PathVariable ("productId") Long productId)
+    public Optional<Product> getSingleProduct(@PathVariable ("productId") Long productId)
     {
-        GetSingleProductResponseDTO responseDTO=new GetSingleProductResponseDTO();
-        responseDTO.setProduct(
-                productsService.getSingleProduct(productId)
-        );
-        return responseDTO;
+        Optional<Product> product=productsService.getSingleProduct(productId);
+        return product;
     }
 
 
 
-    ///////////////// ADD NEW PRODUCT CONTROLLER //////////////////
+    /////////////// ADD NEW PRODUCT CONTROLLER //////////////////
     @PostMapping()
-    public Product addNewProduct(@RequestBody Product product)
+    public Product addNewProduct(@RequestBody ProductDTO productDTO)
     {
-        ProductDTO productDto=convertProduct_to_ProductDTO(product);
-        Product productObj=productsService.addNewProduct(
-                productDto
-        );
-        //ResponseEntity<Product> response=new ResponseEntity<>(productObj, HttpStatus.OK);
+        Product productObj= productsService.addNewProduct(productDTO);
+
         return productObj;
     }
-
 
 
 
@@ -97,7 +78,7 @@ public class ProductController  {
     public Product updateProducts(@PathVariable ("productId") Long productId ,@RequestBody ProductDTO productDTO)
     {
         Product product =convertProductDTO_to_Product(productDTO);
-        Product productObj=productsService.updateProducts(
+        Product productObj= productsService.updateProducts(
                 productId,
                 product
         );
@@ -105,14 +86,13 @@ public class ProductController  {
     }
 
 
-
-
     ///////////////// DELETE  PRODUCT CONTROLLER //////////////////
     @DeleteMapping("{productId}")
     public String deleteProducts(@PathVariable ("productId") Long productId) {
 
-            HttpStatusCode statusCode = productsService.deleteProducts(productId);
-            return "Deleted product with status code: " + statusCode;
+             productsService.deleteProducts(productId);
+        String statusCode = null;
+        return "Deleted product with status code: " + statusCode;
     }
 
 }

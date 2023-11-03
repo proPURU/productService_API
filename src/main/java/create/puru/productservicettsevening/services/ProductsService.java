@@ -1,13 +1,12 @@
 package create.puru.productservicettsevening.services;
 
 import create.puru.productservicettsevening.dtos.ProductDTO;
-import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
 import java.util.List;
-import java.util.PrimitiveIterator;
+import java.util.Optional;
+import java.util.Spliterator;
 
 public interface ProductsService {
 
@@ -15,7 +14,7 @@ public interface ProductsService {
     Product addNewProduct(
             ProductDTO product
             );
-    Product getSingleProduct(Long productId);
+    Optional<Product> getSingleProduct(Long productId);
     Product updateProducts( Long productId,Product product);
-    HttpStatusCode deleteProducts(Long productId);
+    String deleteProducts(Long productId);
 }

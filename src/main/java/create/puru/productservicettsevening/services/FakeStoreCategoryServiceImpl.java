@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+
 public class FakeStoreCategoryServiceImpl implements CategoryService {
     private  Product convertFakeStoreProductDTOtoProducts(FakeStoreProductDTO fakeStoreProductDTO)
     {
@@ -23,7 +23,7 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
         product.setPrice( fakeStoreProductDTO.getPrice());
         Category category = new Category();
         category.setName( fakeStoreProductDTO.getCategory());
-        product.setCategory(category);
+    //    product.setCategory(category);
         product.setImageUrl( fakeStoreProductDTO.getImage());
         return  product;
     }
@@ -40,7 +40,6 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
     @Override
     public List<Product> getProductsInCategories(String categoryName) {
 
-
         List<FakeStoreProductDTO> fakeStoreProductDTOS1 = fakestoreClient.getProductsInCategories(categoryName);
         List<Product> answer=new ArrayList<>();
         for (FakeStoreProductDTO fakeStoreProductDTO: fakeStoreProductDTOS1) {
@@ -49,6 +48,10 @@ public class FakeStoreCategoryServiceImpl implements CategoryService {
         return answer;
     }
 
+    @Override
+    public Category addNewCategory(Category category) {
+        return null;
+    }
 
 
     @Override
