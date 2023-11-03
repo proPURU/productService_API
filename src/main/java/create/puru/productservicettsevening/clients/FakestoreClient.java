@@ -95,7 +95,7 @@ public class FakestoreClient {
         fakeStoreProductDTO.setDescription(product.getDescription());
         fakeStoreProductDTO.setTitle(product.getTitle());
         fakeStoreProductDTO.setPrice(product.getPrice());
-        fakeStoreProductDTO.setCategory(product.getCategory().getName());
+       // fakeStoreProductDTO.setCategory(product.getCategory().getName());
 
                  ResponseEntity<FakeStoreProductDTO> fakeStoreProductDtoResponse=  requestForEntity(
                             HttpMethod.PATCH,
