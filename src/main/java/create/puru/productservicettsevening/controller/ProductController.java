@@ -3,6 +3,7 @@ package create.puru.productservicettsevening.controller;
 import create.puru.productservicettsevening.dtos.ProductDTO;
 import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
+import create.puru.productservicettsevening.repositories.CategoryRepository;
 import create.puru.productservicettsevening.repositories.ProductRepository;
 import create.puru.productservicettsevening.services.CategoryService;
 import create.puru.productservicettsevening.services.ProductsService;
@@ -14,14 +15,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/products")
 public class ProductController  {
-    private ProductRepository productRepository;
+
+
     private ProductsService productsService;
     CategoryService categoryService;
-    public ProductController(ProductsService productsService, ProductRepository productRepository , CategoryService categoryService) {
+    public ProductController(ProductsService productsService,CategoryService categoryService) {
         this.productsService = productsService;
-        this.productRepository=productRepository;
+
         this.categoryService=categoryService;
+
     }
+
 
 
     Product convertProductDTO_to_Product(ProductDTO productDTO)
@@ -31,7 +35,7 @@ public class ProductController  {
         Category cg=new Category();
         cg.setName(productDTO.getCategory());
         cg.setDescription(productDTO.getDescription());
-       // product.setCategory(cg);
+        // product.setCategory(cg);
         categoryService.addNewCategory(cg);
         product.setTitle(productDTO.getTitle());
         product.setPrice(productDTO.getPrice());
@@ -65,7 +69,6 @@ public class ProductController  {
     public Product addNewProduct(@RequestBody ProductDTO productDTO)
     {
         Product productObj= productsService.addNewProduct(productDTO);
-
         return productObj;
     }
 
@@ -84,7 +87,6 @@ public class ProductController  {
         );
         return productObj;
     }
-
 
     ///////////////// DELETE  PRODUCT CONTROLLER //////////////////
     @DeleteMapping("{productId}")

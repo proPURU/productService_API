@@ -3,6 +3,7 @@ package create.puru.productservicettsevening.services;
 import create.puru.productservicettsevening.dtos.ProductDTO;
 import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
+import create.puru.productservicettsevening.repositories.CategoryRepository;
 import create.puru.productservicettsevening.repositories.ProductRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,13 @@ import java.util.Optional;
 
 @Service
 public class SelfProductsService implements  ProductsService{
-
     private ProductRepository productRepository;
-    public SelfProductsService(ProductRepository productRepository)
+    private  CategoryRepository categoryRepository;
+    public SelfProductsService(ProductRepository productRepository , CategoryRepository categoryRepository)
     {
+        this.categoryRepository=categoryRepository;
         this.productRepository=productRepository;
     }
-
     public Product covertProductDTOtoProduct(ProductDTO productDTO)
     {
         Product product=new Product();
@@ -28,7 +29,7 @@ public class SelfProductsService implements  ProductsService{
         product.setImageUrl(productDTO.getImage());
 
         Category category = new Category();
-        category.setName( productDTO.getCategory());
+        category.setName( productDTO.getDescription());
         category.setDescription(productDTO.getDescription());
         product.setCategory(category);
 
@@ -44,9 +45,10 @@ public class SelfProductsService implements  ProductsService{
         product.setImageUrl(productDTO.getImage());
         product.setDescription(productDTO.getDescription());
 
-//        Category category = new Category();
-//        category.setName(productDTO.getCategory());
-//        product.setCategory(category);
+       Category category = new Category();
+       category.setName(productDTO.getCategory());
+       category.setDescription(productDTO.getDescription());
+       product.setCategory(category);
 
         return  product;
     }
@@ -59,23 +61,19 @@ public class SelfProductsService implements  ProductsService{
         return list;
     }
 
-        // Add new Product
-
+    // Add new Product
     @Override
     public Product addNewProduct(ProductDTO productDto) {
         Product obj=convertProductDTO_to_Product(productDto);
-        Product product=productRepository.save(obj);
-        return product;
+        productRepository.save(obj);
+        return obj;
     }
-
 
     // GetSingleProduct
     @Override
     public Optional<Product> getSingleProduct(Long productId) {
-
        Optional<Product> product;
         product = productRepository.findById(productId);
-
         return product;
     }
 
@@ -105,7 +103,6 @@ public class SelfProductsService implements  ProductsService{
         return product1;
 
     }
-
 
     // Delete Products
     @Override

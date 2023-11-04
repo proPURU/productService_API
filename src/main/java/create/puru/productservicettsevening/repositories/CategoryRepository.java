@@ -7,8 +7,5 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-//    Category saveCategory(Category category);
-//
-//    List<Category> findAllBy(List<Long> ids);
-
+    Category findCategoryByName(String name);
 }
