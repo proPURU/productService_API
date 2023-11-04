@@ -29,6 +29,7 @@ public class SelfCategoryService implements CategoryService{
 
     }
 
+
     @Override
     public List<Product> getProductsInCategories(String categoryName) {
         return null;

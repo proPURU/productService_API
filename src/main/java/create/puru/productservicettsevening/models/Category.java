@@ -19,6 +19,6 @@ public class Category extends BaseModel{
     private String name;
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "category" , cascade = {CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "category")
     private List<Product> products;
 }
