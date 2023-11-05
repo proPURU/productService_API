@@ -31,6 +31,7 @@ public class CategoriesController {
     {
         return categoryService.getProductsInCategories(categoryName);
     }
+    //check
 
 
     @PostMapping()
