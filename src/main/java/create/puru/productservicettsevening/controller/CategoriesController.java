@@ -40,7 +40,7 @@ public class CategoriesController {
         Category category1=categoryService.addNewCategory(category);
         return category1;
     }
-
+//check 2
 
 
 }
