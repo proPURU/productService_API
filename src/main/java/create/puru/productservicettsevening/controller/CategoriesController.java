@@ -25,7 +25,7 @@ public class CategoriesController {
         return categoryService.getAllCategories();
     }
 
-
+    //check
     @GetMapping("{categoryId}")
     public List<Product> getProductsInCategories(@PathVariable ("categoryId") String categoryName)
     {
