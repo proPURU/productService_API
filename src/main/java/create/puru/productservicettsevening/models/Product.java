@@ -20,7 +20,5 @@ public class Product extends BaseModel {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-
-    //This branch created for update the pagination
 }
 
