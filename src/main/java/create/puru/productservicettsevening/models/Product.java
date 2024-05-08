@@ -12,14 +12,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Product extends BaseModel {
-    private  String title;
+    private String title;
     private double price;
     private String description;
-    private  String imageUrl;
+    private String imageUrl;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
 
-    }
+    //This branch created for update the pagination
+}
 
