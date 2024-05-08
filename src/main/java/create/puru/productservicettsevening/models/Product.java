@@ -20,5 +20,4 @@ public class Product extends BaseModel {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-}
 
