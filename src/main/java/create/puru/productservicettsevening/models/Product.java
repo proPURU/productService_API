@@ -20,6 +20,6 @@ public class Product extends BaseModel {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-
+    // Just changing this to update on out master merge this codebase.
     }
 
