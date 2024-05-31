@@ -5,7 +5,6 @@ import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
 import create.puru.productservicettsevening.repositories.CategoryRepository;
 import create.puru.productservicettsevening.repositories.ProductRepository;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,6 +59,7 @@ public class SelfProductsService implements  ProductsService{
 
         return list;
     }
+    //Pagination is added
 
     // Add new Product
     @Override
