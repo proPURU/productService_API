@@ -3,8 +3,6 @@ package create.puru.productservicettsevening.controller;
 import create.puru.productservicettsevening.dtos.ProductDTO;
 import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
-import create.puru.productservicettsevening.repositories.CategoryRepository;
-import create.puru.productservicettsevening.repositories.ProductRepository;
 import create.puru.productservicettsevening.services.CategoryService;
 import create.puru.productservicettsevening.services.ProductsService;
 import org.springframework.web.bind.annotation.*;
@@ -47,18 +45,19 @@ public class ProductController  {
 
     ///////////////// ADD ALL PRODUCT CONTROLLER //////////////////
     @GetMapping()
-    public List<Product> GetAllProducts()
-    {
+    public List<Product> GetAllProducts() {
         return productsService.GetAllProducts();
     }
 
-
+    @GetMapping("/byPage")
+    public List<Product> getAllProductByPage() {
+        return productsService.GetAllProductsByPagination();
+    }
 
     ///////////////// GET SINGLE  PRODUCT CONTROLLER //////////////////
     @GetMapping("{productId}")
-    public Optional<Product> getSingleProduct(@PathVariable ("productId") Long productId)
-    {
-        Optional<Product> product=productsService.getSingleProduct(productId);
+    public Optional<Product> getSingleProduct(@PathVariable("productId") Long productId) {
+        Optional<Product> product = productsService.getSingleProduct(productId);
         return product;
     }
 

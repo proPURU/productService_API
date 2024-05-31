@@ -5,7 +5,9 @@ import create.puru.productservicettsevening.models.Category;
 import create.puru.productservicettsevening.models.Product;
 import create.puru.productservicettsevening.repositories.CategoryRepository;
 import create.puru.productservicettsevening.repositories.ProductRepository;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,15 +58,27 @@ public class SelfProductsService implements  ProductsService{
 
     @Override
     public List<Product> GetAllProducts() {
-        List<Product> list=productRepository.findAll();
+        List<Product> list = productRepository.findAll();
 
         return list;
     }
 
+    //Pagination is added
+
+    @Override
+    public List<Product> GetAllProductsByPagination() {
+        List<Product> list = productRepository.findAll();
+        Pageable p = PageRequest.of(2, 5);
+        Page<Product> pageProduct = this.productRepository.findAll(p);
+        List<Product> allProducts = pageProduct.getContent();
+        return allProducts;
+    }
+
+
     // Add new Product
     @Override
     public Product addNewProduct(ProductDTO productDto) {
-        Product obj=convertProductDTO_to_Product(productDto);
+        Product obj = convertProductDTO_to_Product(productDto);
         productRepository.save(obj);
         return obj;
     }
